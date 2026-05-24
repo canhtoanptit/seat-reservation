@@ -23,17 +23,21 @@ body {
     "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Form controls in most browsers do not inherit `color` from the document;
+/* Form fields in most browsers do not inherit `color` from the document;
    they default to a UA-provided "field" colour that on a dark-OS user can
-   render as light grey on our white cards. Force them to inherit. */
-input,
-select,
-textarea,
-button {
-  color: inherit;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #a1a1aa; /* zinc-400 */
+   render as light grey on our white cards. Force them to inherit.
+   Buttons are deliberately NOT in this list — they don't have that quirk,
+   and overriding them would beat Tailwind's `.text-white` (because unlayered
+   rules outrank Tailwind v4's `@layer utilities`). Wrapped in @layer base
+   so per-element utilities still win where set. */
+@layer base {
+  input,
+  select,
+  textarea {
+    color: inherit;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: #a1a1aa; /* zinc-400 */
+  }
 }
