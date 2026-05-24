@@ -78,7 +78,7 @@ Anywhere we list seats or validate a hold, we first `UPDATE reservations SET sta
 
 **Negative**
 
-- The hold TTL is a user-visible time pressure. 10 minutes feels right for 3 seats; configurable via `HOLD_TTL_MINUTES`.
+- The hold TTL is a user-visible time pressure. 10 minutes feels right for this scale; configurable via `HOLD_TTL_MINUTES`.
 - `paying` reservations can theoretically be stuck if the provider goes silent. Handled separately as a "stuck-paying" recovery flow with a longer timeout (30 min) and a `reconcile` script. See `operations.md`.
 
 ## Alternatives considered
@@ -89,4 +89,4 @@ Anywhere we list seats or validate a hold, we first `UPDATE reservations SET sta
 
 - **`SERIALIZABLE` isolation everywhere.** Heavy hammer. The partial unique index + row-level locks at the right granularity is cheaper and equally safe.
 
-- **Queue-based booking ("get in line for seat A").** Overkill for 3 seats. Would make sense for an event with 10k seats and 100k contenders.
+- **Queue-based booking ("get in line for seat A").** Overkill at this scale. Would make sense for an event with 10k seats and 100k contenders.

@@ -6,7 +6,9 @@ This is the doc to read first. It is short on purpose; the supporting material (
 
 ## 1. The problem, and what's interesting about it
 
-A public site shows **three seats**. Authenticated users may select one, pay, and confirm a reservation. Sessions last 90 days. The payment provider may be mocked.
+A public site shows **3 available seats** to authenticated users. They may select one, pay, and confirm a reservation. Sessions last 90 days. The payment provider may be mocked.
+
+The seat inventory is a small pool (10 seats — see `scripts/seed.ts`); the seats page displays up to 3 currently-available seats at a time. As seats are reserved or confirmed, the next ones from the pool fill in, so the "3 available" requirement is honoured literally until the pool drains.
 
 The interesting engineering problem is **not** the UI or auth. It's that a payment step sits inside the reservation flow, so a naïve "check then insert" can be raced under concurrent load — two users could both pay for the same seat. Everything in this submission is shaped around making that impossible, and proving it is impossible.
 

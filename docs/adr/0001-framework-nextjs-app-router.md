@@ -7,7 +7,7 @@
 We need a TypeScript web app with:
 
 - Email/password authentication and session cookies
-- A small UI (3 seats + a checkout page + auth pages)
+- A small UI (up to 3 seats shown at a time + a checkout page + auth pages)
 - Server-side mutations under database transactions (hold creation, payment kickoff, webhook handling)
 - An inbound webhook endpoint
 

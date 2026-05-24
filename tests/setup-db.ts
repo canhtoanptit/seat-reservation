@@ -34,13 +34,12 @@ export async function truncateAll(): Promise<void> {
 }
 
 export async function seedSeats(): Promise<Seat[]> {
+  // Test fixture pool. Matches scripts/seed.ts so the dev DB and the test DB
+  // look the same shape.
+  const labels = ["A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5"];
   return db
     .insert(seats)
-    .values([
-      { label: "A1", priceCents: 2500, currency: "EUR" },
-      { label: "A2", priceCents: 2500, currency: "EUR" },
-      { label: "A3", priceCents: 2500, currency: "EUR" },
-    ])
+    .values(labels.map((label) => ({ label, priceCents: 2500, currency: "EUR" })))
     .returning();
 }
 

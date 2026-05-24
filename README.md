@@ -1,6 +1,6 @@
 # Seat Reservation
 
-A small public seat-reservation platform: three seats, authenticated users, hold-then-pay flow with a Stripe-shaped mock payment provider, and a database-enforced no-double-booking invariant.
+A small public seat-reservation platform: authenticated users, hold-then-pay flow with a Stripe-shaped mock payment provider, and a database-enforced no-double-booking invariant. The page shows **3 available seats** at a time, drawn from a small pool, per the spec.
 
 > **For the reviewer:** the interesting work is the concurrency model. Start with [`docs/plan.md`](./docs/plan.md), then [`docs/diagrams/04-create-hold-concurrent.md`](./docs/diagrams/04-create-hold-concurrent.md), then [`docs/adr/0005-concurrency-hold-then-confirm.md`](./docs/adr/0005-concurrency-hold-then-confirm.md). [`docs/README.md`](./docs/README.md) has a reading order.
 
@@ -12,7 +12,7 @@ Prerequisites: **Docker** (with the Compose plugin) and **GNU make**.
 make demo
 ```
 
-That command builds the app image, brings up Postgres + the app under Docker Compose, applies migrations, seeds the 3 seats, and prints the URL. Then open <http://localhost:3000>.
+That command builds the app image, brings up Postgres + the app under Docker Compose, applies migrations, seeds the seat pool, and prints the URL. Then open <http://localhost:3000>.
 
 What you get:
 
@@ -38,10 +38,10 @@ pnpm dev                         # or: make dev (which does the two lines above)
 ## Demo: the concurrency property
 
 1. Open two **private** browser windows on <http://localhost:3000>.
-2. Sign up two different users.
+2. Sign up two different users. Both see the same first three available seats (e.g. A1, A2, A3).
 3. Both click **Reserve** on the same seat at the same time.
-4. **One** wins and lands on the payment page. The **other** sees `Seat unavailable`.
-5. The winner pays. The losing user refreshes `/seats` and sees the seat as taken.
+4. **One** wins and lands on the payment page. The **other** sees `Seat unavailable`, and on the next render the seat is gone from "Available" — replaced by the next one in the pool.
+5. The winner pays. Their seat now appears under "Your reservations" on `/seats`.
 
 The same property is asserted automatically by `tests/integration/concurrent-hold.test.ts`.
 
@@ -109,7 +109,7 @@ make shell       # shell inside the app container
 make db-up       # start only the postgres service
 make dev         # postgres up + pnpm dev
 make migrate     # apply migrations
-make seed        # insert the 3 seats
+make seed        # insert the seat pool (idempotent)
 make reset       # drop + recreate + migrate + seed
 make sweep       # expire stale holds + flag stuck-paying
 

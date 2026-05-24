@@ -1,10 +1,17 @@
-// Seed the 3 seats. Idempotent: re-running does not create duplicates.
+// Seed the seat inventory. Idempotent: re-running does not create duplicates.
+//
+// The spec asks the app to "display 3 available seats". We keep an inventory
+// larger than 3 so the page can honour that requirement even when some seats
+// are held/paying/confirmed. Pool size is intentionally small (10) so all
+// seats can be drained in a manual demo if desired.
 
 import "dotenv/config";
 import { Pool } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { seats } from "../src/lib/db/schema";
 import { sql } from "drizzle-orm";
+
+const SEAT_LABELS = ["A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5"];
 
 async function main() {
   const url = process.env.DATABASE_URL;
@@ -18,11 +25,13 @@ async function main() {
 
   await db
     .insert(seats)
-    .values([
-      { label: "A1", priceCents: 2500, currency: "EUR" },
-      { label: "A2", priceCents: 2500, currency: "EUR" },
-      { label: "A3", priceCents: 2500, currency: "EUR" },
-    ])
+    .values(
+      SEAT_LABELS.map((label) => ({
+        label,
+        priceCents: 2500,
+        currency: "EUR",
+      })),
+    )
     .onConflictDoNothing({ target: seats.label });
 
   const result = await db.execute<{ count: number }>(

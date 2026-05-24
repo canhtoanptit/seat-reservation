@@ -17,7 +17,7 @@ Two complementary paths, both first-class.
 Compose brings up **both** services:
 
 - `postgres` (port 5432)
-- `app` (port 3000), built from the multi-stage `Dockerfile`. The container's `docker/entrypoint.sh` applies migrations and seeds the 3 seats on start, then `exec`s `next start`.
+- `app` (port 3000), built from the multi-stage `Dockerfile`. The container's `docker/entrypoint.sh` applies migrations and seeds the seat pool on start, then `exec`s `next start`.
 
 The image runs as a non-root user, has a `HEALTHCHECK` against `/api/health`, and the compose service `depends_on: postgres { condition: service_healthy }` so order is correct.
 

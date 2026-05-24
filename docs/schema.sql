@@ -39,7 +39,7 @@ CREATE INDEX sessions_expires_at_idx ON sessions (expires_at);
 -- ─── seats ────────────────────────────────────────────────────────────
 CREATE TABLE seats (
   id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  label       text NOT NULL UNIQUE,              -- "A1", "A2", "A3"
+  label       text NOT NULL UNIQUE,              -- "A1", "A2", … (pool, see scripts/seed.ts)
   price_cents integer NOT NULL CHECK (price_cents > 0),
   currency    text NOT NULL CHECK (length(currency) = 3),
   created_at  timestamptz NOT NULL DEFAULT now()

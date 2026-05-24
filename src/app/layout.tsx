@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Seat Reservation",
-  description: "Reserve one of three seats.",
+  description: "Reserve a seat from the available pool.",
 };
 
 export default function RootLayout({

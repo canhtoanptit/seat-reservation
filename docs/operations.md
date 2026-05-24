@@ -34,7 +34,7 @@ docker compose down -v           # stop + wipe data
 
 # Schema
 pnpm db:migrate                  # apply pending migrations forward
-pnpm db:seed                     # insert the 3 seats (idempotent)
+pnpm db:seed                     # insert the seat pool (idempotent)
 pnpm db:reset                    # drop + recreate + migrate + seed (dev only)
 
 # Run
@@ -128,4 +128,4 @@ The mock payment provider only mounts when `NODE_ENV !== 'production'`. In produ
 | Webhook signature failures spike | Likely a leaked or rotated `MOCK_PAYMENT_WEBHOOK_SECRET`. Rotate; existing in-flight intents will fail webhook delivery and need `reconcile` |
 | Postgres down | App returns 503 from `/api/health`; pages 500 with a generic error. No data loss because all writes are transactional |
 | Sessions table grows unbounded | A periodic job to `DELETE FROM sessions WHERE expires_at < now() OR last_used_at < now() - interval '90 days';` Trivially added; out of scope here |
-| All 3 seats confirmed, app gets traffic | Seats page renders all as taken with no CTA. Working as intended for a single-event app |
+| Entire seat pool drained | Seats page renders an empty-state message ("All seats are currently reserved…"). Working as intended; the pool size is set in `scripts/seed.ts` |

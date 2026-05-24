@@ -28,7 +28,7 @@ sequenceDiagram
 
 ## Why lazy expiry on every read
 
-If you only expire holds via a periodic sweeper, an abandoned hold blocks the seat until the next sweeper tick. With 3 seats that's user-visible. Doing the `UPDATE` on every read costs almost nothing (the partial index `reservations_hold_expiry_idx` covers it) and gives users immediate availability.
+If you only expire holds via a periodic sweeper, an abandoned hold blocks the seat until the next sweeper tick. At this scale that's user-visible. Doing the `UPDATE` on every read costs almost nothing (the partial index `reservations_hold_expiry_idx` covers it) and gives users immediate availability.
 
 The sweeper still exists — it's the backstop that handles seats no-one is currently looking at, and it surfaces stuck-`paying` reservations for operator attention.
 

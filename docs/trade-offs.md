@@ -8,7 +8,7 @@ This is the single doc that surfaces every conscious compromise so a reviewer do
 - **Hand-rolled session auth** rather than a library — the security choices (argon2id, sha256-hashed session tokens, sliding-window 90-day expiry, IP+email rate limit, dummy-hash timing defence) are visible in the code. See `adr/0004-auth-hand-rolled-sessions.md`.
 - **Stripe-shaped mock payment provider** rather than a function-call mock — the webhook signing, idempotency, and intent-creation code is real. Swap to Stripe by replacing one adapter. See `adr/0006-payment-in-repo-mock.md`.
 - **Sliding-window session expiry** as the documented interpretation of "90 days". Captures both an absolute cap and an inactivity cap.
-- **Lazy expiry on read** + **sweeper as backstop**, rather than a queue. Right-sized for 3 seats; abandoned holds free up immediately on the next visitor.
+- **Lazy expiry on read** + **sweeper as backstop**, rather than a queue. Right-sized for this scale; abandoned holds free up immediately on the next visitor.
 - **An `audit_log` table**, even though minimal, to make the operational concern visible.
 
 ## What I deliberately did **not** do, and why
@@ -16,7 +16,7 @@ This is the single doc that surfaces every conscious compromise so a reviewer do
 | Skipped | Why | What I'd do instead at scale |
 |---|---|---|
 | Redis (locks, rate-limit, session cache) | Single Postgres handles correctness; Redis would be ceremony, not safety. | Redis-backed rate limiter; possibly a Redis cache for session reads to remove the per-request DB hit. |
-| Job queue (BullMQ / SQS / Temporal) | 3 seats; sweeper script + lazy expiry covers it. | Queue with retries for stuck-`paying` reconciliation, webhook reprocessing, dunning. |
+| Job queue (BullMQ / SQS / Temporal) | Small inventory; sweeper script + lazy expiry covers it. | Queue with retries for stuck-`paying` reconciliation, webhook reprocessing, dunning. |
 | WebSockets / SSE for live availability | Page-load freshness is enough at this scale. | SSE pushing availability changes; aborts a held seat for User B as soon as User A confirms. |
 | OAuth / MFA / magic links | Out of spec. | Auth.js or WorkOS once we need them. |
 | Real Stripe in test mode | Account + public webhook URL + network dependency in the reviewer's environment. | Swap the `PaymentProvider` adapter; the webhook handler is already shaped to receive Stripe's signature header. |

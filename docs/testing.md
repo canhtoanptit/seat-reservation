@@ -66,7 +66,7 @@ Truth-tellers. Each test sets up a fresh schema in a transaction that is rolled 
 Smoke-level, not exhaustive.
 
 - **`tests/e2e/happy-path.spec.ts`**
-  - Sign up → log in → see 3 seats → click Reserve on seat A2 → land on /reservations/[id] → click Pay → land on /mock-pay/[intentId] → click Succeed → confirmation page → navigate to /seats and assert A2 shows as taken.
+  - Sign up → log in → see 3 available seats → click Reserve on the first one → land on /reservations/[id] → click Pay → land on /mock-pay/[intentId] → click Succeed → confirmation page → navigate to /seats and assert the reserved seat appears under "Your reservations".
 
 That's the only E2E. The integration tests carry the correctness load; Playwright just proves the UI is wired end-to-end.
 
