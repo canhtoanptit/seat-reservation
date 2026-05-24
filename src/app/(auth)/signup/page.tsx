@@ -10,7 +10,7 @@ export default async function SignupPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-semibold">Create account</h1>
+      <h1 className="text-xl font-semibold text-zinc-900">Create account</h1>
       <SignupForm />
       <p className="text-sm text-zinc-600">
         Already have an account?{" "}

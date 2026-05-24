@@ -34,7 +34,7 @@ export function SeatCard({ seat, currentUserId }: Props) {
   return (
     <div className="rounded-lg border border-zinc-200 bg-white p-4">
       <div className="flex items-baseline justify-between">
-        <span className="text-lg font-semibold">Seat {seat.label}</span>
+        <span className="text-lg font-semibold text-zinc-900">Seat {seat.label}</span>
         <span className="text-sm text-zinc-600">{seat.price}</span>
       </div>
 

@@ -20,7 +20,7 @@ export default async function SeatsPage() {
     <main className="mx-auto w-full max-w-2xl p-6">
       <header className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">Pick a seat</h1>
+          <h1 className="text-2xl font-semibold text-zinc-900">Pick a seat</h1>
           <p className="text-sm text-zinc-600">
             Signed in as {user.email}
           </p>

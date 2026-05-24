@@ -56,7 +56,7 @@ export default async function ReservationPage(props: {
       <Link href="/seats" className="text-sm text-zinc-600 underline">
         ← All seats
       </Link>
-      <h1 className="mt-3 text-2xl font-semibold">Reservation</h1>
+      <h1 className="mt-3 text-2xl font-semibold text-zinc-900">Reservation</h1>
 
       <div className="mt-4 space-y-3 rounded-lg border border-zinc-200 bg-white p-4">
         <Row label="Seat" value={`Seat ${seat.label}`} />

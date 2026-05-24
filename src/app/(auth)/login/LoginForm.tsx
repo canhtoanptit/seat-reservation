@@ -3,6 +3,9 @@
 import { useActionState } from "react";
 import { loginAction, type AuthState } from "@/app/actions/auth";
 
+const inputCls =
+  "mt-1 w-full rounded border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-900 focus:outline-none";
+
 export function LoginForm() {
   const [state, formAction, pending] = useActionState<AuthState, FormData>(
     loginAction,
@@ -12,24 +15,26 @@ export function LoginForm() {
   return (
     <form action={formAction} className="space-y-3">
       <label className="block">
-        <span className="text-sm text-zinc-700">Email</span>
+        <span className="text-sm font-medium text-zinc-800">Email</span>
         <input
           type="email"
           name="email"
           required
           autoComplete="email"
-          className="mt-1 w-full rounded border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-900 focus:outline-none"
+          placeholder="you@example.com"
+          className={inputCls}
         />
       </label>
       <label className="block">
-        <span className="text-sm text-zinc-700">Password</span>
+        <span className="text-sm font-medium text-zinc-800">Password</span>
         <input
           type="password"
           name="password"
           required
           minLength={8}
           autoComplete="current-password"
-          className="mt-1 w-full rounded border border-zinc-300 px-3 py-2 text-sm focus:border-zinc-900 focus:outline-none"
+          placeholder="At least 8 characters"
+          className={inputCls}
         />
       </label>
       {state?.error ? (

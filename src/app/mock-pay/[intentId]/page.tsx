@@ -45,7 +45,7 @@ export default async function MockCheckout(props: {
   return (
     <main className="mx-auto w-full max-w-sm p-6">
       <div className="rounded-lg border border-zinc-200 bg-white p-4 shadow-sm">
-        <h1 className="text-lg font-semibold">Mock provider checkout</h1>
+        <h1 className="text-lg font-semibold text-zinc-900">Mock provider checkout</h1>
         <p className="mt-1 text-xs text-zinc-500">
           This page emulates a real payment provider (e.g. Stripe Checkout).
         </p>

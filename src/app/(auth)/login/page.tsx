@@ -10,7 +10,7 @@ export default async function LoginPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-semibold">Log in</h1>
+      <h1 className="text-xl font-semibold text-zinc-900">Log in</h1>
       <LoginForm />
       <p className="text-sm text-zinc-600">
         No account?{" "}
