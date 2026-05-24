@@ -1,0 +1,6 @@
+onlyBuiltDependencies:
+  - argon2
+  - esbuild
+  - unrs-resolver
+ignoredBuiltDependencies:
+  - sharp
