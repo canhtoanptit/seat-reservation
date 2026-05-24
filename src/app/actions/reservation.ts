@@ -40,7 +40,10 @@ export async function createHoldAction(
     redirect(`/reservations/${reservation.id}`);
   } catch (err) {
     if (err instanceof SeatUnavailable) {
-      revalidatePath("/seats");
+      // Do NOT revalidate here — the SeatCard shows a modal with this error
+      // and refreshes /seats client-side when the user dismisses it. If we
+      // revalidate now, the seat falls out of the "Available" list and the
+      // SeatCard unmounts before the user ever sees the error.
       return { error: "This seat was just taken. Please choose another." };
     }
     if (err instanceof SeatNotFound) {
